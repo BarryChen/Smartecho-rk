@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'rockchip'
+            keyPassword '83991906'
+            storeFile file('/home/yhc/workspace/rk/apk_key/rockapk.jks')
+            storePassword 'r111111R'
+        }
+    }
+    compileSdkVersion 21
+    buildToolsVersion "24.0.2"
+    defaultConfig {
+        applicationId "com.rockchip.echo"
+        minSdkVersion 21
+        targetSdkVersion 21
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+
+    mavenLocal()
+    mavenCentral()
+
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
+dependencies {
+    compile fileTree(includes: ['*.jar'], dir: 'libs')
+    compile(name: 'AIEngine', ext: 'aar')
+    compile 'com.android.support:support-v4:21.0.3'
+    compile 'ai.api:libai:1.2.2'
+    compile 'ai.api:sdk:2.0.1@aar'
+//    compile(name: 'speechutils-master-debug', ext: 'aar')
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.willblaschko.android.alexa:AlexaAndroid:2.4.2'
+    compile project(':libs:speechutils-master')
+}
